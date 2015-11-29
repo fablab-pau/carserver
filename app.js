@@ -29,6 +29,7 @@ var programIdCounter = 0;
 var currentProgram = null;
 
 function execute(programId, program, step) {
+    console.log(programId, program, step, currentProgram);
     if (currentProgram !== programId) { // Abort execution of a canceled program
         return;
     }
@@ -67,6 +68,10 @@ function execute(programId, program, step) {
 
 io.on('connection', function (socket) {
     socket.on('STOP', function () {
+        currentProgram = null;
+        piblaster.setPwm(GPIO_ENGINE, 0);
+    });
+    socket.on('disconnect', function () {
         currentProgram = null;
         piblaster.setPwm(GPIO_ENGINE, 0);
     });
