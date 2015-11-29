@@ -29,11 +29,10 @@ var programIdCounter = 0;
 var currentProgram = null;
 
 function execute(programId, program, step) {
-    console.log(programId, program, step, currentProgram);
     if (currentProgram !== programId) { // Abort execution of a canceled program
         return;
     }
-    if (program.length >= step) {
+    if (step >= program.length) {
         return;
     }
     if (program[step].command === 'FORWARD') {
