@@ -1,11 +1,59 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>{{ title }}</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1>{{ title }}</h1>
-    <p>Welcome to {{ title }}</p>
-  </body>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="/javascripts/parser.js"></script>
+    <script>
+        var socket = io.connect(document.location.toString());
+        var reload = false;
+        socket.on('connect', function () {
+            if (reload) {
+                document.location.reload(true);
+                reload = false;
+            }
+        });
+        socket.on('disconnect', function () {
+            reload = true;
+        });
+
+        /*socket.on('news', function (data) {
+            console.log(data);
+            socket.emit('my other event', {my: 'data'});
+        });*/
+
+        function run() {
+            var res = parse($('#program').val());
+            if(res[0] === null) {
+                socket.emit('RUN',res[1]);
+            } else {
+
+            }
+        }
+
+        function stop() {
+            socket.emit('STOP');
+        }
+
+        $('document').ready(function () {
+            $('#run').click(run);
+            $('#stop').click(stop);
+        })
+
+    </script>
+</head>
+<body>
+<textarea id="program">
+straight();
+right();
+left();
+reverse(2);
+forward(2);
+</textarea>
+<button id="run">Run</button>
+<button id="stop">Stop</button>
+
+</body>
 </html>
