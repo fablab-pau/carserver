@@ -36,32 +36,33 @@ function execute(programId, program, step) {
         return;
     }
     if (program[step].command === 'FORWARD') {
+        setTimeout(function () {
+            piblaster.setPwm(GPIO_ENGINE, 0);
+            execute(programId, program, step + 1)
+        }, arguments[0] * 1000)
         piblaster.setPwm(GPIO_ENGINE, FORWARD);
-        setTimeout(function () {
-            piblaster.setPwm(GPIO_ENGINE, 0);
-            execute(programId, program, step + 1)
-        }, arguments[0] * 1000)
+
     } else if (program[step].command === 'REVERSE') {
-        piblaster.setPwm(GPIO_ENGINE, REVERSE);
         setTimeout(function () {
             piblaster.setPwm(GPIO_ENGINE, 0);
             execute(programId, program, step + 1)
         }, arguments[0] * 1000)
+        piblaster.setPwm(GPIO_ENGINE, REVERSE);
     } else if (program[step].command === 'RIGHT') {
+        setTimeout(function () {
+            execute(programId, program, step + 1)
+        }, 500)
         piblaster.setPwm(GPIO_DIRECTION, RIGHT);
-        setTimeout(function () {
-            execute(programId, program, step + 1)
-        }, 500)
     } else if (program[step].command === 'LEFT') {
+        setTimeout(function () {
+            execute(programId, program, step + 1)
+        }, 500)
         piblaster.setPwm(GPIO_DIRECTION, LEFT);
-        setTimeout(function () {
-            execute(programId, program, step + 1)
-        }, 500)
     } else if (program[step].command === 'STRAIGHT') {
-        piblaster.setPwm(GPIO_DIRECTION, STRAIGHT);
         setTimeout(function () {
             execute(programId, program, step + 1)
         }, 500)
+        piblaster.setPwm(GPIO_DIRECTION, STRAIGHT);
     }
 }
 
