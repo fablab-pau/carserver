@@ -39,14 +39,14 @@ function execute(programId, program, step) {
         setTimeout(function () {
             piblaster.setPwm(GPIO_ENGINE, 0);
             execute(programId, program, step + 1)
-        }, arguments[0] * 1000)
+        }, program[step].arguments[0] * 1000)
         piblaster.setPwm(GPIO_ENGINE, FORWARD);
 
     } else if (program[step].command === 'REVERSE') {
         setTimeout(function () {
             piblaster.setPwm(GPIO_ENGINE, 0);
             execute(programId, program, step + 1)
-        }, arguments[0] * 1000)
+        }, program[step].arguments[0] * 1000)
         piblaster.setPwm(GPIO_ENGINE, REVERSE);
     } else if (program[step].command === 'RIGHT') {
         setTimeout(function () {
